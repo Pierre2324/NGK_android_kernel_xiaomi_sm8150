@@ -29,4 +29,5 @@ static inline uint32_t register_system_pm_ops(struct system_pm_ops *pm_ops)
 static inline void update_ipi_history(int cpu) {}
 #endif
 
+void lpm_cluster_use_deepest_state(bool enable);
 #endif
