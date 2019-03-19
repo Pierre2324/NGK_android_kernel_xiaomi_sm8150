@@ -19,6 +19,7 @@
 #include <linux/qpnp/qpnp-revid.h>
 #include <linux/irq.h>
 #include <linux/pmic-voter.h>
+#include <linux/module.h>
 #include "smb-lib.h"
 #include "smb-reg.h"
 #include "battery.h"
@@ -42,6 +43,9 @@
 			pr_debug("%s: %s: " fmt, chg->name,	\
 				__func__, ##__VA_ARGS__);	\
 	} while (0)
+
+bool skip_thermal = false;
+module_param(skip_thermal, bool, 0644);
 
 static bool is_secure(struct smb_charger *chg, int addr)
 {
@@ -2168,6 +2172,8 @@ int smblib_set_prop_batt_status(struct smb_charger *chg,
 int smblib_set_prop_system_temp_level(struct smb_charger *chg,
 				const union power_supply_propval *val)
 {
+	int temp_level;
+
 	if (val->intval < 0)
 		return -EINVAL;
 
@@ -2178,6 +2184,12 @@ int smblib_set_prop_system_temp_level(struct smb_charger *chg,
 		return -EINVAL;
 
 	chg->system_temp_level = val->intval;
+
+	if (skip_thermal) {
+		temp_level = chg->system_temp_level;
+		chg->system_temp_level = 0;
+	}
+
 	/* disable parallel charge in case of system temp level */
 	vote(chg->pl_disable_votable, THERMAL_DAEMON_VOTER,
 			chg->system_temp_level ? true : false, 0);
@@ -2192,6 +2204,11 @@ int smblib_set_prop_system_temp_level(struct smb_charger *chg,
 
 	vote(chg->fcc_votable, THERMAL_DAEMON_VOTER, true,
 			chg->thermal_mitigation[chg->system_temp_level]);
+
+	if (skip_thermal) {
+		chg->system_temp_level = temp_level;
+	}
+
 	return 0;
 }
 
