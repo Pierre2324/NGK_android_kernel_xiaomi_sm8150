@@ -71,7 +71,7 @@ enum pm_state {
 
 /* defined for non_verified pps charger maxium fcc */
 #define NON_VERIFIED_PPS_FCC_MAX		3000
-#define MAX_THERMAL_LEVEL			13
+#define MAX_THERMAL_LEVEL			16
 /* jeita related */
 #define JEITA_WARM_THR			450
 #define JEITA_COOL_NOT_ALLOW_CP_THR			100
