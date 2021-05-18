@@ -63,6 +63,27 @@
 #include "../xiaomi/xiaomi_touch.h"
 #endif
 
+#undef dev_info
+#define dev_info(x, ...)
+#undef dev_dbg
+#define dev_dbg(x, ...)
+#undef dev_err
+#define dev_err(x, ...)
+#undef pr_info
+#define pr_info(x, ...)
+#undef pr_debug
+#define pr_debug(x, ...)
+#undef pr_error
+#define pr_error(x, ...)
+#undef printk
+#define printk(x, ...)
+#undef printk_deferred
+#define printk_deferred(x, ...)
+#undef NVT_LOG
+#define NVT_LOG(x, ...)
+#undef NVT_ERR
+#define NVT_ERR(x, ...)
+
 #if NVT_TOUCH_EXT_PROC
 extern int32_t nvt_extra_proc_init(void);
 extern void nvt_extra_proc_deinit(void);
