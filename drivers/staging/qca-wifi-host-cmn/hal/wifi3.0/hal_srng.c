@@ -467,13 +467,19 @@ hal_process_reg_write_q_elem(struct hal_soc *hal,
 		q_elem->dequeue_val = srng->u.src_ring.hp;
 		hal_write_address_32_mb(hal,
 					srng->u.src_ring.hp_addr,
+					#if 0
 					srng->u.src_ring.hp, false);
+					#endif
+					srng->u.src_ring.hp, true);
 		write_val = srng->u.src_ring.hp;
 	} else {
 		q_elem->dequeue_val = srng->u.dst_ring.tp;
 		hal_write_address_32_mb(hal,
 					srng->u.dst_ring.tp_addr,
+					#if 0
 					srng->u.dst_ring.tp, false);
+					#endif
+					srng->u.dst_ring.tp, true);
 		write_val = srng->u.dst_ring.tp;
 	}
 
