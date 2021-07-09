@@ -30,7 +30,8 @@ ARCH=${ARCH} \
 CC=${COMPILER} \
 CROSS_COMPILE=${COMPILERDIR}/bin/aarch64-linux-gnu- \
 CROSS_COMPILE_ARM32=${COMPILERDIR}/bin/arm-linux-gnueabi- \
-LD_LIBRARY_PATH=${COMPILERDIR}/lib
+LD_LIBRARY_PATH=${COMPILERDIR}/lib \
+Image.gz-dtb dtbo.img
 }
 
 Build_lld () {
@@ -47,7 +48,8 @@ OBJCOPY=llvm-objcopy \
 OBJDUMP=llvm-objdump \
 STRIP=llvm-strip \
 ld-name=${LINKER} \
-KBUILD_COMPILER_STRING="Proton Clang"
+KBUILD_COMPILER_STRING="Proton Clang" \
+Image.gz-dtb dtbo.img
 }
 
 # Make defconfig
