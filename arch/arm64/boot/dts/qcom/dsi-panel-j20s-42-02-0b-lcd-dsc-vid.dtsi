@@ -40,7 +40,6 @@
 		qcom,mdss-dsi-bl-min-level = <2>;
 		qcom,mdss-dsi-bl-max-level = <4095>;
 		qcom,mdss-brightness-max-level = <4095>;
-		qcom,ulps-enabled;
 		qcom,mdss-dsi-reset-sequence = <1 5>, <0 1>, <1 10>;
 		qcom,mdss-pan-physical-width-dimension = <70>;
 		qcom,mdss-pan-physical-height-dimension = <154>;
@@ -74,6 +73,10 @@
 		mi,mdss-dsi-dfps-dec-vfp-list = <0x14 0x00 0x14 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00>;
 		mi,mdss-dsi-dfps-dec-hfp-list = <0x00 0x00 0x00 0x00 0x00 0x00 0x04 0x00 0x04 0x00 0x00 0x00>;
 		mi,mdss-dsi-post-off-msleep = <0x14>;
+
+		qcom,ulps-enabled;
+		qcom,suspend-ulps-enabled;
+		qcom,panel-allow-phy-poweroff;
 
 		qcom,mdss-dsi-display-timings {
 			timing@0{
