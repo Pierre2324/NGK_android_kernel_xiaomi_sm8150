@@ -1,5 +1,8 @@
 #define MAX_TRACE_PATHBUF_LEN 256
 
+#define trace_android_fs_dataread_end(x, ...) {}
+#define trace_android_fs_dataread_start_enabled(x, ...) 0
+#define trace_android_fs_dataread_start(x, ...) {}
 #define trace_android_fs_data_start_template(x, ...) {}
 #define trace_android_fs_data_end_template(x, ...) {}
 #define trace_android_fs_fsync_end(x, ...) {}

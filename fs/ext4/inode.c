@@ -45,7 +45,6 @@
 #include "acl.h"
 #include "truncate.h"
 
-#include <trace/events/android_fs.h>
 #include <notrace.h>
 
 #define MPAGE_DA_EXTENT_TAIL 0x01

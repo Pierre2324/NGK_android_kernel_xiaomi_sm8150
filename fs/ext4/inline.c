@@ -18,7 +18,6 @@
 #include "ext4.h"
 #include "xattr.h"
 #include "truncate.h"
-#include <trace/events/android_fs.h>
 #include <notrace.h>
 
 #define EXT4_XATTR_SYSTEM_DATA	"data"

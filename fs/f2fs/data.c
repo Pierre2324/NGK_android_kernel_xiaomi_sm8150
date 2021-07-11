@@ -24,6 +24,8 @@
 #include "node.h"
 #include "segment.h"
 
+#include <notrace.h>
+
 #define NUM_PREALLOC_POST_READ_CTXS	128
 
 static struct kmem_cache *bio_post_read_ctx_cache;

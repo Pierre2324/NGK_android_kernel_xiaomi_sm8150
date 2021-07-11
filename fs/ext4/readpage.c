@@ -46,7 +46,6 @@
 #include <linux/cleancache.h>
 
 #include "ext4.h"
-#include <trace/events/android_fs.h>
 #include <notrace.h>
 
 #define NUM_PREALLOC_POST_READ_CTXS	128
