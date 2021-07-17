@@ -309,7 +309,7 @@ static int msm_drm_notifier_cb(struct notifier_block *nb, unsigned long action,
 	if (*blank == MSM_DRM_BLANK_UNBLANK) {
 		set_bit(SCREEN_ON, &b->state);
 		__cpu_input_boost_kick_max(b, wake_boost_duration);
-	} else if (*blank == MSM_DRM_BLANK_POWERDOWN_CUST) {
+	} else if (*blank == MSM_DRM_BLANK_POWERDOWN) {
 		clear_bit(SCREEN_ON, &b->state);
 		wake_up(&b->boost_waitq);
 	}
