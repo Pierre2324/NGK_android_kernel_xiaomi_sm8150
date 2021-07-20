@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.14.238 Kernel Configuration
+# Linux/arm64 4.14.239 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -5304,8 +5304,6 @@ CONFIG_STM=y
 # CONFIG_STM_SOURCE_CONSOLE is not set
 # CONFIG_STM_SOURCE_HEARTBEAT is not set
 # CONFIG_INTEL_TH is not set
-CONFIG_CORESIGHT_PLACEHOLDER=y
-CONFIG_CORESIGHT_AMBA_PLACEHOLDER=y
 # CONFIG_FPGA is not set
 
 #
