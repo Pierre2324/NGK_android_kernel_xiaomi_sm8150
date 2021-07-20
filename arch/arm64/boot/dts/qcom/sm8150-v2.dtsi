@@ -767,7 +767,7 @@
 
 			qcom,gpu-pwrlevel@0 {
 				reg = <0>;
-				qcom,gpu-freq = <675000000>;
+				qcom,gpu-freq = <692000000>;
 				qcom,bus-freq = <11>;
 				qcom,bus-min = <11>;
 				qcom,bus-max = <11>;
