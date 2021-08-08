@@ -30,6 +30,7 @@
 #include <linux/debugfs.h>
 #include "../spi-xiaomi-tp.h"
 #include <linux/init.h>
+#include <linux/cpu.h>
 
 #include <linux/notifier.h>
 #ifdef CONFIG_DRM
@@ -2390,6 +2391,7 @@ static int32_t nvt_ts_probe(struct platform_device *pdev)
 			NVT_ERR("request irq failed. ret=%d\n", ret);
 			goto err_int_request_failed;
 		} else {
+			irq_set_affinity(ts->client->irq, cpu_perf_mask);
 			nvt_irq_enable(false);
 			NVT_LOG("request irq %d succeed\n", ts->client->irq);
 		}
@@ -2916,12 +2918,14 @@ static int nvt_drm_notifier_callback(struct notifier_block *self, unsigned long 
 		if (event == MSM_DRM_EARLY_EVENT_BLANK) {
 			if (*blank == MSM_DRM_BLANK_POWERDOWN) {
 				NVT_LOG("event=%lu, *blank=%d\n", event, *blank);
+				irq_set_affinity(ts->client->irq, cpumask_of(0));
 				flush_workqueue(ts_data->event_wq);
 				nvt_ts_suspend(&ts_data->client->dev);
 			}
 		} else if (event == MSM_DRM_EVENT_BLANK) {
 			if (*blank == MSM_DRM_BLANK_UNBLANK) {
 				NVT_LOG("event=%lu, *blank=%d\n", event, *blank);
+				irq_set_affinity(ts->client->irq, cpu_perf_mask);
 				flush_workqueue(ts_data->event_wq);
 				queue_work(ts_data->event_wq, &ts_data->resume_work);
 			}
