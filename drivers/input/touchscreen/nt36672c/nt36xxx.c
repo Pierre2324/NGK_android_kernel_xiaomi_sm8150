@@ -1089,22 +1089,6 @@ static int32_t nvt_parse_dt(struct device *dev)
 			NVT_LOG("fw_name: %s", config_info->nvt_fw_name);
 		}
 
-		ret = of_property_read_string(temp, "novatek,mp-name",
-						&config_info->nvt_mp_name);
-		if (ret && (ret != -EINVAL)) {
-			NVT_ERR("Unable to read mp name\n");
-		} else {
-			NVT_LOG("mp_name: %s", config_info->nvt_mp_name);
-		}
-
-		/*
-		ret = of_property_read_string(temp, "novatek,limit-name",
-						 &config_info->nvt_limit_name);
-		if (ret && (ret != -EINVAL)) {
-			NVT_LOG("Unable to read limit name\n");
-		} else {
-			NVT_LOG("limit_name: %s", config_info->nvt_limit_name);
-		}*/
 		config_info++;
 	}
 	return ret;
@@ -1184,11 +1168,9 @@ void nvt_match_fw(void)
 		if (nvt_cmds_panel_info()) {
 			NVT_LOG("%s: panel is first\n", __func__);
 			ts->fw_name = DEFAULT_BOOT_UPDATE_FIRMWARE_FIRST;
-			ts->mp_name = DEFAULT_MP_UPDATE_FIRMWARE_FIRST;
 		} else {
 			NVT_LOG("%s: panel is second\n", __func__);
 			ts->fw_name = DEFAULT_BOOT_UPDATE_FIRMWARE_SECOND;
-			ts->mp_name = DEFAULT_MP_UPDATE_FIRMWARE_SECOND;
 		}
 	} else {
 		ts->fw_name = ts->config_array[ts->panel_index].nvt_fw_name;

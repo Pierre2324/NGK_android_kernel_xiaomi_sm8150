@@ -97,12 +97,9 @@
 
 #define BOOT_UPDATE_FIRMWARE 1
 #define DEFAULT_BOOT_UPDATE_FIRMWARE_FIRST "j20s_novatek_ts_fw01.bin"
-#define DEFAULT_MP_UPDATE_FIRMWARE_FIRST   "j20s_novatek_ts_mp01.bin"
 #define DEFAULT_BOOT_UPDATE_FIRMWARE_SECOND "j20s_novatek_ts_fw02.bin"
-#define DEFAULT_MP_UPDATE_FIRMWARE_SECOND   "j20s_novatek_ts_mp02.bin"
 #define DEFAULT_DEBUG_FW_NAME "novatek_debug_fw.bin"
 #define DEFAULT_DEBUG_MP_NAME "novatek_debug_mp.bin"
-
 
 #define NVT_TOUCH_WDT_RECOVERY 1
 #define NVT_TOUCH_ESD_DISP_RECOVERY 1
@@ -113,7 +110,6 @@ struct nvt_config_info {
 	u8 display_maker;
 	u8 glass_vendor;
 	const char *nvt_fw_name;
-	const char *nvt_mp_name;
 	const char *nvt_limit_name;
 };
 
@@ -184,7 +180,6 @@ struct nvt_ts_data {
 	struct nvt_config_info *config_array;
 	int panel_index;
 	const u8 *fw_name;
-	const u8 *mp_name;
 	uint32_t spi_max_freq;
 	struct attribute_group *attrs;
 	/*bit map indicate which slot(0~9) has been used*/
