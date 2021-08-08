@@ -1364,6 +1364,8 @@ static irqreturn_t nvt_ts_work_func(int irq, void *data)
 	int32_t i = 0;
 	int32_t finger_cnt = 0;
 
+	pm_qos_update_request(&ts->pm_qos_req, 100);
+
 #if WAKEUP_GESTURE
 	if (unlikely(bTouchIsAwake == 0)) {
 		pm_wakeup_event(&ts->input_dev->dev, 5000);
@@ -1379,7 +1381,7 @@ static irqreturn_t nvt_ts_work_func(int irq, void *data)
 	}
 
 	ret = CTP_SPI_READ(ts->client, point_data, POINT_DATA_LEN + 1);
-	if (unlikely(ret < 0) {
+	if (unlikely(ret < 0)) {
 		NVT_ERR("CTP_SPI_READ failed.(%d)\n", ret);
 		goto XFER_ERROR;
 	}
@@ -1419,11 +1421,11 @@ static irqreturn_t nvt_ts_work_func(int irq, void *data)
 #endif
 
 #if WAKEUP_GESTURE
-	if (unlikely(bTouchIsAwake == 0) {
+	if (unlikely(bTouchIsAwake == 0)) {
 		input_id = (uint8_t)(point_data[1] >> 3);
 		nvt_ts_wakeup_gesture_report(input_id, point_data);
-		mutex_unlock(&ts->lock);
-		return IRQ_HANDLED;
+		nvt_irq_enable(true);
+		goto XFER_ERROR;
 	}
 #endif
 
@@ -1474,9 +1476,11 @@ static irqreturn_t nvt_ts_work_func(int irq, void *data)
 	}
 	/* input_report_key(ts->input_dev, BTN_TOUCH, (finger_cnt > 0)); */
 
+XFER_ERROR:
+	pm_qos_update_request(&ts->pm_qos_req, PM_QOS_DEFAULT_VALUE);
+
 	input_sync(ts->input_dev);
 
-XFER_ERROR:
 	mutex_unlock(&ts->lock);
 	return IRQ_HANDLED;
 }
@@ -2389,6 +2393,10 @@ static int32_t nvt_ts_probe(struct platform_device *pdev)
 			nvt_irq_enable(false);
 			NVT_LOG("request irq %d succeed\n", ts->client->irq);
 		}
+		ts->pm_qos_req.type = PM_QOS_REQ_AFFINE_IRQ;
+		ts->pm_qos_req.irq = ts->client->irq;
+		pm_qos_add_request(&ts->pm_qos_req, PM_QOS_CPU_DMA_LATENCY,
+				PM_QOS_DEFAULT_VALUE);
 	}
 
 	INIT_WORK(&ts->switch_mode_work, nvt_switch_mode_work);
@@ -2624,6 +2632,9 @@ static int32_t nvt_ts_remove(struct platform_device *pdev)
 	if (fb_unregister_client(&ts->fb_notif))
 		NVT_ERR("Error occurred while unregistering fb_notifier.\n");
 #endif
+
+	pm_qos_remove_request(&ts->pm_qos_req);
+
 #if defined(CONFIG_HAS_EARLYSUSPEND)
 	unregister_early_suspend(&ts->early_suspend);
 #endif

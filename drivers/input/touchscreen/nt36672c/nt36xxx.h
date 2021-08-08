@@ -26,6 +26,7 @@
 #include <linux/platform_device.h>
 #include <linux/sysfs.h>
 #include <linux/workqueue.h>
+#include <linux/pm_qos.h>
 
 
 #ifdef CONFIG_HAS_EARLYSUSPEND
@@ -202,6 +203,7 @@ struct nvt_ts_data {
 	struct completion dev_pm_suspend_completion;
 	bool palm_sensor_switch;
 	uint8_t debug_flag;
+	struct pm_qos_request pm_qos_req;
 };
 
 #if NVT_TOUCH_PROC
