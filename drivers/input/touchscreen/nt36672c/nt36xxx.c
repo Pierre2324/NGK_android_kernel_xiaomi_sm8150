@@ -31,6 +31,12 @@
 #include "../spi-xiaomi-tp.h"
 #include <linux/init.h>
 #include <linux/cpu.h>
+#include <linux/version.h>
+
+/* The sched_param struct is located elsewhere in newer kernels */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 10, 0)
+#include <uapi/linux/sched/types.h>
+#endif
 
 #include <linux/notifier.h>
 #ifdef CONFIG_DRM
