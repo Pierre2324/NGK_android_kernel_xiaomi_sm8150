@@ -5183,6 +5183,43 @@ static struct attribute_group dynamic_dsi_clock_fs_attrs_group = {
 	.attrs = dynamic_dsi_clock_fs_attrs,
 };
 
+static ssize_t sysfs_display_feature_write(struct device *dev, struct device_attribute *attr, const char *buf, size_t len)
+{
+		int rc = 0;
+		int param = 0;
+		struct dsi_display *display;
+
+		display = dev_get_drvdata(dev);
+		if (!display) {
+				pr_err("Invalid display\n");
+				return -EINVAL;
+		}
+
+		rc = kstrtoint(buf, 10, &param);
+		if (rc) {
+				pr_err("kstrtoint failed. rc=%d\n", rc);
+				return rc;
+		}
+
+		pr_info("xinj:_###_%s,set_feature_cmd: %d\n", __func__, param);
+        dsi_panel_set_feature(display->panel, param);
+		return len;
+}
+
+
+static DEVICE_ATTR(display_feature, 0664,
+			NULL,
+			sysfs_display_feature_write);
+
+static struct attribute *display_feature_fs_attrs[] = {
+    &dev_attr_display_feature.attr,
+	NULL,
+};
+
+static struct attribute_group display_feature_fs_attrs_group = {
+	.attrs = display_feature_fs_attrs,
+};
+
 static int dsi_display_validate_split_link(struct dsi_display *display)
 {
 	int i, rc = 0;
@@ -5346,6 +5383,9 @@ static int dsi_display_sysfs_init(struct dsi_display *display)
 		rc = sysfs_create_group(&dev->kobj,
 			&dynamic_dsi_clock_fs_attrs_group);
 
+	rc = sysfs_create_group(&dev->kobj,
+			&display_feature_fs_attrs_group);
+
 	return rc;
 
 }
@@ -5357,6 +5397,9 @@ static int dsi_display_sysfs_deinit(struct dsi_display *display)
 	if (display->panel->panel_mode == DSI_OP_CMD_MODE)
 		sysfs_remove_group(&dev->kobj,
 			&dynamic_dsi_clock_fs_attrs_group);
+
+	sysfs_remove_group(&dev->kobj,
+		&display_feature_fs_attrs_group);
 
 	return 0;
 
