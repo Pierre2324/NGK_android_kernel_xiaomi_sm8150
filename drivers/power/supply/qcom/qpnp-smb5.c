@@ -44,7 +44,8 @@ union power_supply_propval lct_therm_lcdoff_level = {LCT_THERM_LCDOFF_LEVEL,};
 
 bool lct_backlight_off;
 int LctIsInCall = 0;
-int LctThermal =0;
+int LctThermal = 0;
+int LctBypassCharging = 0;
 
 static struct smb_params smb5_pmi632_params = {
 	.fcc			= {
@@ -2088,6 +2089,7 @@ static int smb5_batt_set_prop(struct power_supply *psy,
 		chg->fcc_stepper_enable = val->intval;
 		break;
 	case POWER_SUPPLY_PROP_BATTERY_CHARGING_ENABLED:
+		pr_err("POWER_SUPPLY_PROP_BATTERY_CHARGING_ENABLED %d\n", val->intval);
 		if (chg->use_bq_pump) {
 			if (val->intval == 0) {
 				if (chg->six_pin_step_charge_enable)
@@ -2105,7 +2107,7 @@ static int smb5_batt_set_prop(struct power_supply *psy,
 								false, 0);
 			}
 		}
-		break;
+    	break;
 	case POWER_SUPPLY_PROP_CHARGING_ENABLED:
 		rc = smblib_set_prop_battery_charging_enabled(chg, val);
 		break;
