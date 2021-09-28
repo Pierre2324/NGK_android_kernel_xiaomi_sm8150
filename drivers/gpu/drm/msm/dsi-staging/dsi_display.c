@@ -5352,6 +5352,47 @@ error:
 	return ret == 0 ? count : ret;
 }
 
+
+static ssize_t sysfs_dimming_read(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct dsi_display *display = dev_get_drvdata(dev);
+	if (!display->panel)
+		return 0;
+
+	return scnprintf(buf, PAGE_SIZE, "%d\n", display->panel->dimming_mode);
+}
+
+static ssize_t sysfs_dimming_write(struct device *dev,
+	    struct device_attribute *attr, const char *buf, size_t count)
+{
+	struct dsi_display *display = dev_get_drvdata(dev);
+	int ret, dimming_mode;
+
+	if (!display->panel)
+		return -EINVAL;
+
+	ret = kstrtoint(buf, 10, &dimming_mode);
+	if (ret) {
+		pr_err("kstrtoint failed. ret=%d\n", ret);
+		return ret;
+	}
+
+	mutex_lock(&display->display_lock);
+
+	display->panel->dimming_mode = dimming_mode;
+	if (!dsi_panel_initialized(display->panel))
+		goto error;
+
+	ret = dsi_panel_apply_dimming_mode(display->panel);
+	if (ret)
+		pr_err("unable to set dimming mode\n");
+
+error:
+	mutex_unlock(&display->display_lock);
+	return ret == 0 ? count : ret;
+}
+
 static DEVICE_ATTR(hbm, 0644,
 			sysfs_hbm_read,
 			sysfs_hbm_write);
@@ -5360,9 +5401,14 @@ static DEVICE_ATTR(cabc, 0644,
 			sysfs_cabc_read,
 			sysfs_cabc_write);
 
+static DEVICE_ATTR(dimming, 0644,
+			sysfs_dimming_read,
+			sysfs_dimming_write);
+
 static struct attribute *display_fs_attrs[] = {
 	&dev_attr_hbm.attr,
 	&dev_attr_cabc.attr,
+	&dev_attr_dimming.attr,
 	NULL,
 };
 

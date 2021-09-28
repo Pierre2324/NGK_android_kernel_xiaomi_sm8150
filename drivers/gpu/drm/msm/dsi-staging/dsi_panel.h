@@ -291,6 +291,7 @@ struct dsi_panel {
 
 	int hbm_mode;
 	int cabc_mode;
+    int dimming_mode;
 };
 
 static inline bool dsi_panel_ulps_feature_enabled(struct dsi_panel *panel)
@@ -418,5 +419,7 @@ int dsi_panel_read_cmd_set(struct dsi_panel *panel, struct dsi_read_config *read
 int dsi_panel_apply_hbm_mode(struct dsi_panel *panel);
 
 int dsi_panel_apply_cabc_mode(struct dsi_panel *panel);
+
+int dsi_panel_apply_dimming_mode(struct dsi_panel *panel);
 
 #endif /* _DSI_PANEL_H_ */
