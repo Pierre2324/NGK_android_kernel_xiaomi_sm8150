@@ -2699,6 +2699,7 @@ static u32 debug_suspend;
 static DEFINE_MUTEX(clk_debug_lock);
 static HLIST_HEAD(clk_debug_list);
 
+<<<<<<< HEAD
 static void clk_state_subtree(struct clk_core *c)
 {
 	int vdd_level = 0;
@@ -2749,6 +2750,8 @@ static const struct file_operations clk_state_fops = {
 	.release	= single_release,
 };
 
+=======
+>>>>>>> 232212bea464d04980a558f2c6900bc16af601f7
 static struct hlist_head *orphan_list[] = {
 	&clk_orphan_list,
 	NULL,
