@@ -5192,6 +5192,12 @@ static void usbpd_release(struct device *dev)
 
 static int num_pd_instances;
 
+static struct usbpd *g_pd;
+struct usbpd *smb_get_g_pd(void)
+{
+	return g_pd;
+}
+
 /**
  * usbpd_create - Create a new instance of USB PD protocol/policy engine
  * @parent - parent device to associate with
