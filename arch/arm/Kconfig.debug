@@ -31,6 +31,17 @@ config UNWINDER_FRAME_POINTER
 	select ARCH_WANT_FRAME_POINTERS
 	select FRAME_POINTER
 	help
+	help
+	  This determines which method will be used for unwinding kernel stack
+	  traces for panics, oopses, bugs, warnings, perf, /proc/<pid>/stack,
+	  livepatch, lockdep, and more.
+
+config UNWINDER_FRAME_POINTER
+	bool "Frame pointer unwinder"
+	depends on !THUMB2_KERNEL && !CC_IS_CLANG
+	select ARCH_WANT_FRAME_POINTERS
+	select FRAME_POINTER
+	help
 	  This option enables the frame pointer unwinder for unwinding
 	  kernel stack traces.
 
