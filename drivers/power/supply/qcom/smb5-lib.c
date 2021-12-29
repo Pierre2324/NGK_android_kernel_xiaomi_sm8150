@@ -47,9 +47,6 @@ EXPORT_SYMBOL(g_touchscreen_usb_pulgin);
 #include <linux/fastchg.h>
 #endif
 
-static bool bypass_charging = false;
-module_param(bypass_charging, bool, 0644);
-
 #define smblib_err(chg, fmt, ...)		\
 	pr_err("%s: %s: " fmt, chg->name,	\
 		__func__, ##__VA_ARGS__)	\
@@ -2821,10 +2818,10 @@ int smblib_set_prop_system_temp_level(struct smb_charger *chg,
 {
     int valintval = val->intval;
  
-    if (valintval == 128 || bypass_charging)  {
+    if (valintval == 128)  {
         valintval = lct_therm_lvl_reserved.intval;
         LctBypassCharging = 1;
-    } else if( valintval == 129 || !bypass_charging) {
+    } else if( valintval == 129 ) {
         valintval = lct_therm_lvl_reserved.intval;
         LctBypassCharging = 0;
     } else 	if (valintval < 0) {
@@ -6351,7 +6348,6 @@ void smblib_usb_plugin_hard_reset_locked(struct smb_charger *chg)
 		if (chg->six_pin_step_charge_enable)
 			smblib_get_start_vbat_before_step_charge(chg);
 	} else {
-		bypass_charging = false;
 		if (chg->wa_flags & BOOST_BACK_WA) {
 			data = chg->irq_info[SWITCHER_POWER_OK_IRQ].irq_data;
 			if (data) {
