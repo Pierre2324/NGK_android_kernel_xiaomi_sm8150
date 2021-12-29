@@ -31,7 +31,6 @@
 #ifdef CONFIG_REVERSE_CHARGE
 #include <linux/gpio.h>
 #endif
-#include <linux/moduleparam.h>
 
 #if CONFIG_TOUCHSCREEN_COMMON
 typedef struct touchscreen_usb_piugin_data{
