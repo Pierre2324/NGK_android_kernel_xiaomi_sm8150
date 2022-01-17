@@ -1130,19 +1130,22 @@ static bool nvt_cmds_panel_info(void)
 	return panel_id;
 }
 
+static short fw_variant = 0;
+
 static int nvt_get_panel_type(struct nvt_ts_data *ts_data)
 {
 	int i;
 	u8 *lockdown = ts_data->lockdown_info;
 	struct nvt_config_info *panel_list = ts->config_array;
+    bool second = false;
 
 	for (i = 0; i < ts->config_array_size; i++) {
-
 		if (lockdown[0] == panel_list[i].tp_vendor) {
-			if(lockdown[0] == 0x46) {
-				break;
-			}
-			if (lockdown[7] == panel_list[i].glass_vendor) {
+			if(lockdown[0] == 0x46 || lockdown[7] == panel_list[i].glass_vendor) {
+				if(fw_variant == 1 && !second)  {
+                    second = true;
+                    continue;
+                }
 				break;
 			}
 		}
@@ -1156,10 +1159,31 @@ static int nvt_get_panel_type(struct nvt_ts_data *ts_data)
 		return ts->panel_index;
 	}
 
-	NVT_LOG("match panle type, fw is [%s], mp is [%s]",
+	NVT_LOG("match panel type, fw is [%s], mp is [%s]",
 		panel_list[i].nvt_fw_name, panel_list[i].nvt_mp_name);
 	return ts->panel_index;
 }
+
+int fw_variant_set(const char *val, const struct kernel_param *kp)
+{
+    unsigned short* pvalue = kp->arg; // Pointer to actual parameter variable.
+    int res = param_set_ushort(val, kp); // Use helper for write variable
+    if(res == 0 && fw_variant >= 0 && fw_variant <=1)
+    {
+    	ts->fw_name = nvt_get_panel_type(ts);
+        NVT_ERR("set firmware variant %d\n", *pvalue);
+        Boot_Update_Firmware(0);
+    }
+    return res;
+}
+
+const struct kernel_param_ops fw_variant_ops = 
+{
+    .set = &fw_variant_set, // Use our setter ...
+    .get = &param_get_ushort, // .. and standard getter
+};
+
+module_param_cb(fw_variant, &fw_variant_ops, &fw_variant, 0644);
 
 bool is_lockdown_empty(u8 *lockdown)
 {

@@ -96,10 +96,10 @@
 #define PACKET_PALM_OFF 4
 
 #define BOOT_UPDATE_FIRMWARE 1
-#define DEFAULT_BOOT_UPDATE_FIRMWARE_FIRST "j20s_novatek_ts_fw01.bin"
-#define DEFAULT_MP_UPDATE_FIRMWARE_FIRST   "j20s_novatek_ts_mp01.bin"
-#define DEFAULT_BOOT_UPDATE_FIRMWARE_SECOND "j20s_novatek_ts_fw02.bin"
-#define DEFAULT_MP_UPDATE_FIRMWARE_SECOND   "j20s_novatek_ts_mp02.bin"
+#define DEFAULT_BOOT_UPDATE_FIRMWARE_FIRST "j20s_novatek_ts_fw01_V12.5.5.0.bin"
+#define DEFAULT_MP_UPDATE_FIRMWARE_FIRST   "j20s_novatek_ts_mp01_V12.5.5.0.bin"
+#define DEFAULT_BOOT_UPDATE_FIRMWARE_SECOND "j20s_novatek_ts_fw02_V12.5.5.0.bin"
+#define DEFAULT_MP_UPDATE_FIRMWARE_SECOND   "j20s_novatek_ts_mp02_V12.5.5.0.bin"
 #define DEFAULT_DEBUG_FW_NAME "novatek_debug_fw.bin"
 #define DEFAULT_DEBUG_MP_NAME "novatek_debug_mp.bin"
 
