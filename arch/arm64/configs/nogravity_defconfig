@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.14.259 Kernel Configuration
+# Linux/arm64 4.14.262 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -655,7 +655,7 @@ CONFIG_RANDOMIZE_BASE=y
 #
 # Boot options
 #
-CONFIG_CMDLINE="ramoops_memreserve=4M"
+CONFIG_CMDLINE="ramoops_memreserve=4M cgroup_disable=pressure"
 # CONFIG_CMDLINE_FROM_BOOTLOADER is not set
 CONFIG_CMDLINE_EXTEND=y
 # CONFIG_CMDLINE_FORCE is not set
@@ -3354,6 +3354,7 @@ CONFIG_DRM_MIPI_DSI=y
 # CONFIG_DRM_DP_AUX_CHARDEV is not set
 # CONFIG_DRM_DEBUG_MM is not set
 # CONFIG_DRM_DEBUG_MM_SELFTEST is not set
+# CONFIG_DRM_CLIENT_BOOTSPLASH is not set
 CONFIG_DRM_KMS_HELPER=y
 # CONFIG_DRM_FBDEV_EMULATION is not set
 # CONFIG_DRM_LOAD_EDID_FIRMWARE is not set
