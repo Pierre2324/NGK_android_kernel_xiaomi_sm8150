@@ -1156,8 +1156,6 @@ static int nvt_get_panel_type(struct nvt_ts_data *ts_data)
 		return ts->panel_index;
 	}
 
-	NVT_LOG("match panel type, fw is [%s], mp is [%s]",
-		panel_list[i].nvt_fw_name, panel_list[i].nvt_mp_name);
 	return ts->panel_index;
 }
 
@@ -1211,7 +1209,6 @@ void nvt_match_fw(void)
 		}
 	} else {
 		ts->fw_name = ts->config_array[ts->panel_index].nvt_fw_name;
-		ts->mp_name = ts->config_array[ts->panel_index].nvt_mp_name;
 	}
 }
 
