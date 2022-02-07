@@ -34,7 +34,6 @@
 #include <linux/seq_file.h>
 #include <linux/uaccess.h>
 #include <linux/vmalloc.h>
-#include <linux/debugfs.h>
 #include <linux/dma-buf.h>
 #include <linux/idr.h>
 #include <linux/sched/task.h>
@@ -1221,45 +1220,8 @@ static const struct file_operations ion_fops = {
 #endif
 };
 
-static int debug_shrink_set(void *data, u64 val)
-{
-	struct ion_heap *heap = data;
-	struct shrink_control sc;
-	int objs;
-
-	sc.gfp_mask = GFP_HIGHUSER;
-	sc.nr_to_scan = val;
-
-	if (!val) {
-		objs = heap->shrinker.count_objects(&heap->shrinker, &sc);
-		sc.nr_to_scan = objs;
-	}
-
-	heap->shrinker.scan_objects(&heap->shrinker, &sc);
-	return 0;
-}
-
-static int debug_shrink_get(void *data, u64 *val)
-{
-	struct ion_heap *heap = data;
-	struct shrink_control sc;
-	int objs;
-
-	sc.gfp_mask = GFP_HIGHUSER;
-	sc.nr_to_scan = 0;
-
-	objs = heap->shrinker.count_objects(&heap->shrinker, &sc);
-	*val = objs;
-	return 0;
-}
-
-DEFINE_SIMPLE_ATTRIBUTE(debug_shrink_fops, debug_shrink_get,
-			debug_shrink_set, "%llu\n");
-
 void ion_device_add_heap(struct ion_device *dev, struct ion_heap *heap)
 {
-	struct dentry *debug_file;
-
 	if (!heap->ops->allocate || !heap->ops->free)
 		pr_err("%s: can not add heap with invalid ops struct.\n",
 		       __func__);
@@ -1281,22 +1243,6 @@ void ion_device_add_heap(struct ion_device *dev, struct ion_heap *heap)
 	 */
 	plist_node_init(&heap->node, -heap->id);
 	plist_add(&heap->node, &dev->heaps);
-
-	if (heap->shrinker.count_objects && heap->shrinker.scan_objects) {
-		char debug_name[64];
-
-		snprintf(debug_name, 64, "%s_shrink", heap->name);
-		debug_file = debugfs_create_file(
-			debug_name, 0644, dev->debug_root, heap,
-			&debug_shrink_fops);
-		if (!debug_file) {
-			char buf[256], *path;
-
-			path = dentry_path(dev->debug_root, buf, 256);
-			pr_err("Failed to create heap shrinker debugfs at %s/%s\n",
-			       path, debug_name);
-		}
-	}
 
 	dev->heap_cnt++;
 	up_write(&dev->lock);
@@ -1377,14 +1323,6 @@ struct ion_device *ion_device_create(void)
 		pr_err("ion: failed to add sysfs attributes.\n");
 		goto err_sysfs;
 	}
-
-	idev->debug_root = debugfs_create_dir("ion", NULL);
-	if (!idev->debug_root) {
-		pr_err("ion: failed to create debugfs root directory.\n");
-		goto debugfs_done;
-	}
-
-debugfs_done:
 
 	idev->buffers = RB_ROOT;
 	mutex_init(&idev->buffer_lock);
