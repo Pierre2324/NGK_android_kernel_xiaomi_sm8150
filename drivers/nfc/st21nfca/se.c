@@ -354,15 +354,10 @@ int st21nfca_connectivity_event_received(struct nfc_hci_dev *hdev, u8 host,
 			return -EPROTO;
 		}
 
-<<<<<<< HEAD
-=======
-		transaction->params_len = skb->data[transaction->aid_len + 3];
-
 		/* Total size is allocated (skb->len - 2) minus fixed array members */
 		if (transaction->params_len > ((skb->len - 2) - sizeof(struct nfc_evt_transaction)))
 			return -EINVAL;
 
->>>>>>> d908d2776464... nfc: st21nfca: Fix potential buffer overflows in EVT_TRANSACTION
 		memcpy(transaction->params, skb->data +
 		       transaction->aid_len + 4, transaction->params_len);
 
