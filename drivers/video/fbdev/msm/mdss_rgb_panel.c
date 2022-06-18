@@ -14,6 +14,7 @@
 #include <linux/delay.h>
 #include <video/mipi_display.h>
 #include <linux/pwm.h>
+#include <misc/zyc_display.h>
 
 #include "mdss_rgb.h"
 
@@ -389,13 +390,23 @@ static int mdss_rgb_panel_parse_dt(struct device_node *np,
 	int rc = 0;
 	struct mdss_panel_info *pinfo = &(rgb_data->panel_data.panel_info);
 
-	pinfo->physical_width = 0;
-	rc = of_property_read_u32(np, "qcom,mdss-pan-physical-width-dimension",
-			&pinfo->physical_width);
+	if (&use_old_mdsi_pan){
+		pinfo->physical_width = 0;
+		rc = of_property_read_u32(np, "qcom,mdss-pan-physical-width-dimension-old",
+				&pinfo->physical_width);
 
-	pinfo->physical_height = 0;
-	rc = of_property_read_u32(np, "qcom,mdss-pan-physical-height-dimension",
-			&pinfo->physical_height);
+		pinfo->physical_height = 0;
+		rc = of_property_read_u32(np, "qcom,mdss-pan-physical-height-dimension-old",
+				&pinfo->physical_height);
+	} else {
+		pinfo->physical_width = 0;
+		rc = of_property_read_u32(np, "qcom,mdss-pan-physical-width-dimension",
+				&pinfo->physical_width);
+
+		pinfo->physical_height = 0;
+		rc = of_property_read_u32(np, "qcom,mdss-pan-physical-height-dimension",
+				&pinfo->physical_height);
+	}
 
 	pinfo->bpp = 24;
 	rc = of_property_read_u32(np, "qcom,mdss-rgb-bpp", &pinfo->bpp);

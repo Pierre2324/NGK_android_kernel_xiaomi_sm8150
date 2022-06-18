@@ -19,6 +19,7 @@
 #include <linux/pwm.h>
 #include <linux/of_device.h>
 #include <linux/uaccess.h>
+#include <misc/zyc_display.h>
 
 #include "mdss_panel.h"
 #include "mdss_spi_panel.h"
@@ -787,12 +788,21 @@ static int mdss_spi_panel_parse_dt(struct device_node *np,
 	}
 	pinfo->yres = tmp;
 
-	rc = of_property_read_u32(np,
-		"qcom,mdss-pan-physical-width-dimension", &tmp);
-	pinfo->physical_width = (!rc ? tmp : 0);
-	rc = of_property_read_u32(np,
-		"qcom,mdss-pan-physical-height-dimension", &tmp);
-	pinfo->physical_height = (!rc ? tmp : 0);
+	if (&use_old_mdsi_pan){
+		rc = of_property_read_u32(np,
+			"qcom,mdss-pan-physical-width-dimension-old", &tmp);
+		pinfo->physical_width = (!rc ? tmp : 0);
+		rc = of_property_read_u32(np,
+			"qcom,mdss-pan-physical-height-dimension-old", &tmp);
+		pinfo->physical_height = (!rc ? tmp : 0);
+	} else {
+		rc = of_property_read_u32(np,
+			"qcom,mdss-pan-physical-width-dimension", &tmp);
+		pinfo->physical_width = (!rc ? tmp : 0);
+		rc = of_property_read_u32(np,
+			"qcom,mdss-pan-physical-height-dimension", &tmp);
+		pinfo->physical_height = (!rc ? tmp : 0);
+	}
 	rc = of_property_read_u32(np, "qcom,mdss-spi-panel-framerate", &tmp);
 	pinfo->spi.frame_rate = (!rc ? tmp : 30);
 
