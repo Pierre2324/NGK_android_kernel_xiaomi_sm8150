@@ -6,7 +6,7 @@ SUBARCH="arm64"
 DEFCONFIG=nogravity_defconfig
 COMPILER=clang
 LINKER="lld"
-COMPILERDIR="/media/pierre/Expension/Android/PocoX3Pro/Kernels/Proton-Clang"
+COMPILERDIR="/media/pierre/Expension/Android/PocoX3Pro/Kernels/Neutron-Clang"
 
 # Export shits
 export KBUILD_BUILD_USER=Pierre2324
@@ -48,7 +48,7 @@ OBJCOPY=llvm-objcopy \
 OBJDUMP=llvm-objdump \
 STRIP=llvm-strip \
 ld-name=${LINKER} \
-KBUILD_COMPILER_STRING="Proton Clang" \
+KBUILD_COMPILER_STRING="Neutron Clang" \
 Image.gz-dtb dtbo.img
 }
 
