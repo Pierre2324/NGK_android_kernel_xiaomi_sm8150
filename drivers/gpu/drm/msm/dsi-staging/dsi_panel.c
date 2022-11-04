@@ -20,7 +20,6 @@
 #include <linux/pwm.h>
 #include <video/mipi_display.h>
 #include <asm/hwconf_manager.h>
-#include <misc/zyc_display.h>
 
 #include "dsi_panel.h"
 #include "dsi_display.h"
@@ -1882,13 +1881,9 @@ static int dsi_panel_parse_phy_props(struct dsi_panel *panel)
 	struct dsi_panel_phy_props *props = &panel->phy_props;
 	struct dsi_parser_utils *utils = &panel->utils;
 	const char *name = panel->name;
-	if (&use_old_mdsi_pan){
-		rc = utils->read_u32(utils->data,
-			"qcom,mdss-pan-physical-width-dimension-old", &val);
-	} else {
-		rc = utils->read_u32(utils->data,
-			"qcom,mdss-pan-physical-width-dimension", &val);
-	}
+
+	rc = utils->read_u32(utils->data,
+		  "qcom,mdss-pan-physical-width-dimension", &val);
 	if (rc) {
 		pr_debug("[%s] Physical panel width is not defined\n", name);
 		props->panel_width_mm = 0;
@@ -1896,16 +1891,10 @@ static int dsi_panel_parse_phy_props(struct dsi_panel *panel)
 	} else {
 		props->panel_width_mm = val;
 	}
-	
-	if (&use_old_mdsi_pan){
-		rc = utils->read_u32(utils->data,
-					"qcom,mdss-pan-physical-height-dimension-old",
-					&val);
-	} else {
-		rc = utils->read_u32(utils->data,
-					"qcom,mdss-pan-physical-height-dimension",
-					&val);
-	}
+
+	rc = utils->read_u32(utils->data,
+				  "qcom,mdss-pan-physical-height-dimension",
+				  &val);
 	if (rc) {
 		pr_debug("[%s] Physical panel height is not defined\n", name);
 		props->panel_height_mm = 0;
