@@ -25,10 +25,8 @@ fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_fw01_V13.
 fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_mp01_V12.5.5.0.bin
 fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_fw02_V13.0.3.0.bin
 fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_mp02_V12.5.5.0.bin
-fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_fw01_V12.0.6.0.bin
-fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_mp01_V12.0.6.0.bin
-fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_fw02_V12.0.6.0.bin
-fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_mp02_V12.0.6.0.bin
+fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_fw01_V12.5.5.0.bin
+fw-shipped-$(CONFIG_TOUCHSCREEN_NT36xxx_HOSTDL_SPI) += j20s_novatek_ts_fw02_V12.5.5.0.bin
 
 fw-shipped-all := $(fw-shipped-y) $(fw-shipped-m) $(fw-shipped-)
 
