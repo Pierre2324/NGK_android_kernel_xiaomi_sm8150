@@ -94,9 +94,6 @@ else
     cp out/arch/arm64/boot/dtbo.img out/outputs/${PHONE}/dtbo.img
     cp out/arch/arm64/boot/Image.gz out/outputs/${PHONE}/Image.gz
     #MIUI dtbo
-    cp arch/arm64/boot/dts/qcom/panel-dimensions/dsi-panel-j20s-36-02-0a-lcd-dsc-vid-miui.dtsi arch/arm64/boot/dts/qcom/dsi-panel-j20s-36-02-0a-lcd-dsc-vid.dtsi
-    cp arch/arm64/boot/dts/qcom/panel-dimensions/dsi-panel-j20s-42-02-0b-lcd-dsc-vid-miui.dtsi arch/arm64/boot/dts/qcom/dsi-panel-j20s-42-02-0b-lcd-dsc-vid.dtsi
-    #MIUI dtbo
     rm out/outputs/dtbo-miui.img
     miui_fix_dimens
     echo | Build_lld
