@@ -58,11 +58,15 @@ Image.gz-dtb dtbo.img
 
 miui_fix_dimens() {
     sed -i 's/<70>/<695>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-36-02-0a-lcd-dsc-vid.dtsi
-    sed -i 's/<155>/<1546>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-42-02-0b-lcd-dsc-vid.dtsi
+    sed -i 's/<154>/<1546>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-36-02-0a-lcd-dsc-vid.dtsi
+    sed -i 's/<70>/<695>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-42-02-0b-lcd-dsc-vid.dtsi
+    sed -i 's/<154>/<1546>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-42-02-0b-lcd-dsc-vid.dtsi
 }
 restore_dimens() {
     sed -i 's/<695>/<70>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-36-02-0a-lcd-dsc-vid.dtsi
-    sed -i 's/<1546>/<155>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-42-02-0b-lcd-dsc-vid.dtsi
+    sed -i 's/<1546>/<154>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-36-02-0a-lcd-dsc-vid.dtsi
+    sed -i 's/<695>/<70>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-42-02-0b-lcd-dsc-vid.dtsi
+    sed -i 's/<1546>/<154>/g' arch/arm64/boot/dts/qcom/dsi-panel-j20s-42-02-0b-lcd-dsc-vid.dtsi
 }
 
 # Make defconfig
