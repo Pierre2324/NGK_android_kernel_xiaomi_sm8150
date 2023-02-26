@@ -133,3 +133,6 @@ Android.bp
 
 # Ignore out folder
 out
+
+# Ignore KernlSu repo
+KernelSU

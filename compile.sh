@@ -9,6 +9,8 @@ COMPILER=clang
 LINKER="lld"
 COMPILERDIR="/media/pierre/Expension/Android/PocoX3Pro/Kernels/Proton-Clang"
 
+curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+
 # Cleanup output
 rm -rf out/outputs/${PHONE}/*
 
