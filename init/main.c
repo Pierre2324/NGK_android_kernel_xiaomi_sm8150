@@ -91,7 +91,6 @@
 #include <linux/jump_label.h>
 
 #include <asm/io.h>
-#include <asm/bugs.h>
 #include <asm/setup.h>
 #include <asm/sections.h>
 #include <asm/cacheflush.h>
@@ -723,8 +722,6 @@ asmlinkage __visible void __init start_kernel(void)
 	cgroup_init();
 	taskstats_init_early();
 	delayacct_init();
-
-	check_bugs();
 
 	acpi_subsystem_init();
 	arch_post_acpi_subsys_init();
